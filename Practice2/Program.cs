@@ -29,8 +29,9 @@ namespace Practice2
             Console.WriteLine("Factorial:" + Factorial(10));
 
             #region Task3
+            Console.WriteLine("\n* Task 3 *");
             List<Cakes> cakes = new List<Cakes> {
-                new Cakes("cake1", PastryTypes.choux, CreamTypes.coffee),
+                new Cakes("cake1", PastryTypes.filo, CreamTypes.coffee),
                 new Cakes("cake2", PastryTypes.flaky, CreamTypes.clotted),
                 new Cakes("cake3", PastryTypes.choux, CreamTypes.whipping),
                 new Cakes("cake4", PastryTypes.choux, CreamTypes.coffee),
@@ -43,21 +44,39 @@ namespace Practice2
                 new Cakes("cake11", PastryTypes.flaky, CreamTypes.clotted),
                 new Cakes("cake12", PastryTypes.puff, CreamTypes.chantilly)
             };
-            //var sortedDetails = cakes.GroupBy(x => x.Pastry).ToDictionary(t => t.Key, t => t.ToList());
-            //Console.WriteLine(sortedDetails);
-            //var groupCakes = cakes.GroupBy(x => x.Pastry);
-            //foreach (var group in groupCakes)
-            //{
-            //    Console.WriteLine(group.Key);
-            //    foreach (var i in group)
-            //    {
-            //        Console.Write(i + " ");
-            //    }
-            //}
+
+            // Group by one field
+            Console.WriteLine("\n* Group by one field *");
+            var groupCakes = cakes.GroupBy(x => x.pastry);
+            foreach (var group in groupCakes)
+            {
+                Console.WriteLine($"\n{group.Key}:");
+                foreach (Cakes i in group)
+                {
+                    Console.WriteLine(i.name);
+                }
+            }
+
+            // Group by two fields
+            Console.WriteLine("\n* Group by two fields *");
+            var groupCakesBy2Fields =
+                from cake in cakes
+                orderby cake.pastry, cake.cream
+                group cake by new { cake.pastry, cake.cream };
+
+            foreach (var group in groupCakesBy2Fields)
+            {
+                Console.WriteLine($"\n{group.Key}:");
+                foreach (Cakes i in group)
+                {
+                    Console.WriteLine(i.name);
+                }
+            }
+
             #endregion Task3
 
             #region Task4
-            Console.WriteLine("* Task 4 *");
+            Console.WriteLine("\n* Task 4 *");
             int countArray = 10;
             int[] Array = new int[countArray];
 
@@ -66,7 +85,7 @@ namespace Practice2
             for (int i = 0; i < Array.Length; i++)
             {
                 Array[i] = rand.Next(0, 100);
-                Console.Write(Array[i] + " " );
+                Console.Write(Array[i] + " ");
             }
 
             IEnumerable<IGrouping<int, int>> query = Array.GroupBy(number => number % 2);
